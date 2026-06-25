@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Erickson Allowance</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f172a">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<style>
+:root{
+  --bg:#0f172a;--card:#1e293b;--card2:#293548;--border:#334155;
+  --text:#f8fafc;--text2:#94a3b8;
+  --green:#10b981;--red:#f43f5e;--amber:#f59e0b;--blue:#3b82f6;
+  --accent:#3b82f6;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  overscroll-behavior:none}
+
+/* ── Login ── */
+#login{min-height:100dvh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:28px 24px;gap:28px}
+.l-logo{font-size:52px;text-align:center}
+.l-title{font-size:26px;font-weight:700;text-align:center;letter-spacing:-.5px}
+.l-sub{font-size:15px;color:var(--text2);text-align:center;margin-top:4px}
+.name-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:340px}
+.name-card{background:var(--card);border:2px solid var(--border);border-radius:18px;
+  padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;
+  cursor:pointer;color:var(--text);transition:transform .15s,border-color .15s,background .15s}
+.name-card:active{transform:scale(.96)}
+.name-card.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--card))}
+.n-av{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:22px;font-weight:700;color:#fff}
+.n-nm{font-weight:600;font-size:16px}
+.role-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;
+  text-transform:uppercase;letter-spacing:.5px}
+.rb-parent{background:#7c3aed22;color:#a78bfa;border:1px solid #7c3aed44}
+.rb-kid{background:#2563eb22;color:#93c5fd;border:1px solid #2563eb44}
+
+.pw-wrap{width:100%;max-width:340px;display:flex;flex-direction:column;gap:12px;
+  animation:su .22s ease}
+@keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.pw-who{text-align:center;font-size:17px;color:var(--text2)}
+.pw-who strong{color:var(--text)}
+.pw-inp{background:var(--card);border:2px solid var(--border);border-radius:12px;
+  padding:14px 16px;font-size:20px;color:var(--text);width:100%;outline:none;
+  text-align:center;letter-spacing:6px;transition:border-color .15s}
+.pw-inp:focus{border-color:var(--accent)}
+.pw-inp.shake{animation:shk .3s}
+@keyframes shk{0%,100%{transform:none}20%{transform:translateX(-8px)}
+  40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+.pw-go{background:var(--accent);color:#fff;border:none;border-radius:12px;
+  padding:14px;font-size:16px;font-weight:600;cursor:pointer;transition:opacity .15s}
+.pw-go:disabled{opacity:.5}
+.pw-back{background:none;border:none;color:var(--text2);font-size:14px;cursor:pointer;
+  text-align:center;padding:4px}
+.pw-err{color:var(--red);text-align:center;font-size:14px;min-height:18px}
+
+/* ── App shell ── */
+#app{max-width:480px;margin:0 auto;padding-bottom:40px}
+header{background:var(--card);padding:12px 16px;display:flex;align-items:center;
+  justify-content:space-between;position:sticky;top:0;z-index:10;
+  border-bottom:1px solid var(--border)}
+.hdr-user{display:flex;align-items:center;gap:10px}
+.hdr-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.hdr-nm{font-weight:600;font-size:15px}
+.week-nav{display:flex;align-items:center;gap:6px}
+.week-nav button{background:var(--card2);border:1px solid var(--border);color:var(--text);
+  border-radius:8px;width:30px;height:30px;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center}
+.week-nav button:disabled{opacity:.3;cursor:default}
+#week-lbl{font-size:12px;font-weight:600;color:var(--text2);white-space:nowrap}
+.logout-btn{background:none;border:1px solid var(--border);color:var(--text2);
+  border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer}
+
+/* ── Requests banner ── */
+#req-banner{margin:12px 16px 0;background:#f59e0b1a;border:1px solid #f59e0b55;
+  border-radius:12px;padding:11px 14px;display:flex;align-items:center;
+  justify-content:space-between;cursor:pointer}
+#req-banner:active{background:#f59e0b28}
+.rb-left{display:flex;align-items:center;gap:10px}
+.rb-dot{background:var(--amber);color:#000;font-size:11px;font-weight:700;
+  border-radius:99px;padding:2px 8px}
+.rb-txt{font-size:14px;font-weight:500;color:var(--amber)}
+.rb-chev{color:var(--amber);font-size:16px;transition:transform .2s}
+.rb-chev.open{transform:rotate(180deg)}
+
+/* ── Requests panel ── */
+#req-panel{margin:6px 16px 0;background:var(--card);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden}
+.req-item{padding:14px 16px;border-bottom:1px solid var(--border)}
+.req-item:last-child{border-bottom:none}
+.ri-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.ri-child{font-weight:600;font-size:14px}
+.ri-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;
+  text-transform:capitalize}
+.rb-chore_dispute{background:#3b82f622;color:#93c5fd;border:1px solid #3b82f644}
+.rb-bonus_request{background:#10b98122;color:#6ee7b7;border:1px solid #10b98144}
+.rb-purchase_request{background:#f59e0b22;color:#fcd34d;border:1px solid #f59e0b44}
+.rb-other{background:#94a3b822;color:#cbd5e1;border:1px solid #94a3b844}
+.ri-desc{font-size:14px;color:var(--text2);margin-bottom:4px}
+.ri-amt{font-size:13px;color:var(--green);font-weight:600;margin-bottom:4px}
+.ri-time{font-size:12px;color:var(--text2);margin-bottom:8px}
+.ri-acts{display:flex;gap:8px}
+.ri-approve{flex:1;background:#10b98122;border:1px solid #10b98166;color:var(--green);
+  border-radius:8px;padding:8px;font-size:14px;font-weight:600;cursor:pointer}
+.ri-deny{flex:1;background:#f43f5e22;border:1px solid #f43f5e66;color:var(--red);
+  border-radius:8px;padding:8px;font-size:14px;font-weight:600;cursor:pointer}
+
+/* ── Child card ── */
+.child-card{margin:12px 16px 0;background:var(--card);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden}
+.ch-hdr{padding:16px;display:flex;align-items:center;gap:14px}
+.ch-av{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0}
+.ch-info{flex:1}
+.ch-name{font-size:18px;font-weight:700}
+.ch-sub{font-size:13px;color:var(--text2);margin-top:1px}
+.ch-bal{text-align:right}
+.bal-amt{font-size:22px;font-weight:700}
+.bal-pos{color:var(--green)}
+.bal-neg{color:var(--red)}
+.bal-lbl{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
+
+/* Chores */
+.chores{padding:0 16px 12px}
+.chores-ttl{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;
+  letter-spacing:.5px;margin-bottom:8px}
+.chore-row{display:flex;align-items:center;gap:10px;padding:9px 0;
+  border-bottom:1px solid var(--border)}
+.chore-row:last-child{border-bottom:none}
+.chore-row.tappable{cursor:pointer}
+.chk{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:background .15s,border-color .15s}
+.chk.done{background:var(--green);border-color:var(--green)}
+.chk.done::after{content:'✓';color:#fff;font-size:13px;font-weight:700}
+.chore-nm{flex:1;font-size:15px}
+.chore-nm.done{text-decoration:line-through;color:var(--text2)}
+.chore-rep{font-size:12px;color:var(--blue);background:none;border:1px solid #3b82f655;
+  border-radius:6px;padding:3px 8px;cursor:pointer;white-space:nowrap}
+
+/* Progress bar */
+.wk-prog{margin:0 16px;padding:10px 0;border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:10px}
+.prog-bar{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden}
+.prog-fill{height:100%;background:var(--green);border-radius:99px;transition:width .4s}
+.prog-lbl{font-size:12px;color:var(--text2);white-space:nowrap}
+.prog-earn{font-size:13px;font-weight:600;color:var(--green);white-space:nowrap}
+
+/* Actions */
+.ch-acts{padding:12px 16px;display:flex;gap:8px;border-top:1px solid var(--border)}
+.btn-earn{flex:1;background:#10b98122;border:1px solid #10b98166;color:var(--green);
+  border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer}
+.btn-earn:disabled{opacity:.4;cursor:not-allowed}
+.btn-spend{flex:1;background:#f43f5e22;border:1px solid #f43f5e66;color:var(--red);
+  border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer}
+.btn-hist{background:var(--card2);border:1px solid var(--border);color:var(--text2);
+  border-radius:10px;padding:10px 14px;font-size:15px;cursor:pointer}
+
+/* History */
+.hist-section{border-top:1px solid var(--border)}
+.hist-row{padding:10px 16px;display:flex;align-items:center;
+  border-bottom:1px solid var(--border);font-size:14px}
+.hist-row:last-child{border-bottom:none}
+.hist-desc{flex:1;color:var(--text2)}
+.hist-date{font-size:11px;color:var(--text2);margin-right:8px}
+.hist-amt{font-weight:600}
+.ha-pos{color:var(--green)}
+.ha-neg{color:var(--red)}
+
+/* Kid section */
+#kid-req-section{margin:16px}
+.kid-req-btn{width:100%;background:#3b82f622;border:1px solid #3b82f666;color:var(--blue);
+  border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer}
+
+/* My requests */
+.my-reqs{margin:12px 16px 0;background:var(--card);border:1px solid var(--border);
+  border-radius:16px;overflow:hidden}
+.my-reqs-ttl{padding:12px 16px;font-size:12px;font-weight:600;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+.mr-item{padding:12px 16px;border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.mr-item:last-child{border-bottom:none}
+.mr-desc{font-size:14px}
+.mr-note{font-size:12px;color:var(--text2);margin-top:3px}
+.pill{font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;
+  white-space:nowrap;text-transform:uppercase;flex-shrink:0}
+.pill-pending{background:#f59e0b22;color:var(--amber);border:1px solid #f59e0b44}
+.pill-approved{background:#10b98122;color:var(--green);border:1px solid #10b98144}
+.pill-denied{background:#f43f5e22;color:var(--red);border:1px solid #f43f5e44}
+
+/* ── Modals ── */
+.modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;
+  display:none;align-items:flex-end;justify-content:center}
+.modal-bd.open{display:flex}
+.modal-sheet{background:var(--card);border-radius:24px 24px 0 0;
+  padding:24px 20px calc(24px + env(safe-area-inset-bottom));
+  width:100%;max-width:480px;display:flex;flex-direction:column;gap:14px;
+  animation:shu .22s ease}
+@keyframes shu{from{transform:translateY(100%)}to{transform:none}}
+.modal-title{font-size:18px;font-weight:700;text-align:center}
+.modal-lbl{font-size:13px;color:var(--text2);font-weight:600;margin-bottom:4px}
+.modal-inp,.modal-sel,.modal-ta{background:var(--card2);border:1px solid var(--border);
+  border-radius:10px;padding:12px 14px;font-size:16px;color:var(--text);
+  width:100%;outline:none;font-family:inherit}
+.modal-ta{min-height:80px;resize:none}
+.modal-inp:focus,.modal-sel:focus,.modal-ta:focus{border-color:var(--blue)}
+.modal-sel option{background:var(--card)}
+.modal-row{display:flex;gap:10px}
+.btn-cancel{flex:1;background:var(--card2);border:1px solid var(--border);
+  color:var(--text2);border-radius:10px;padding:14px;font-size:15px;
+  font-weight:600;cursor:pointer}
+.btn-ok{flex:2;background:var(--blue);border:none;color:#fff;border-radius:10px;
+  padding:14px;font-size:15px;font-weight:600;cursor:pointer}
+.btn-ok.red{background:var(--red)}
+
+/* Toast */
+#toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;
+  transform:translateX(-50%) translateY(80px);background:#1e293b;
+  border:1px solid var(--border);color:var(--text);padding:12px 20px;
+  border-radius:12px;font-size:14px;font-weight:500;transition:transform .3s;
+  z-index:200;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+.empty{padding:20px;text-align:center;color:var(--text2);font-size:14px}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="login">
+  <div>
+    <div class="l-logo">💰</div>
+    <div class="l-title">Erickson Allowance</div>
+    <div class="l-sub">Who's using the app?</div>
+  </div>
+
+  <div class="name-grid" id="name-grid">
+    <button class="name-card" id="card-Joel" onclick="pickName('Joel')">
+      <div class="n-av" style="background:#7c3aed">J</div>
+      <div class="n-nm">Joel</div>
+      <div class="role-badge rb-parent">Parent</div>
+    </button>
+    <button class="name-card" id="card-Kayla" onclick="pickName('Kayla')">
+      <div class="n-av" style="background:#db2777">K</div>
+      <div class="n-nm">Kayla</div>
+      <div class="role-badge rb-parent">Parent</div>
+    </button>
+    <button class="name-card" id="card-Aaron" onclick="pickName('Aaron')">
+      <div class="n-av" style="background:#2563eb">A</div>
+      <div class="n-nm">Aaron</div>
+      <div class="role-badge rb-kid">Kid</div>
+    </button>
+    <button class="name-card" id="card-Davin" onclick="pickName('Davin')">
+      <div class="n-av" style="background:#059669">D</div>
+      <div class="n-nm">Davin</div>
+      <div class="role-badge rb-kid">Kid</div>
+    </button>
+  </div>
+
+  <div class="pw-wrap" id="pw-wrap" style="display:none">
+    <div class="pw-who" id="pw-who"></div>
+    <input type="password" id="pw-inp" class="pw-inp" placeholder="Password"
+      autocomplete="current-password"
+      onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="pw-go" id="pw-go" onclick="doLogin()">Sign In →</button>
+    <button class="pw-back" onclick="backToNames()">← Change name</button>
+    <div class="pw-err" id="pw-err"></div>
+  </div>
+</div>
+
+<!-- ═══ APP ═══ -->
+<div id="app" style="display:none">
+  <header>
+    <div class="hdr-user">
+      <div class="hdr-av" id="hdr-av"></div>
+      <span class="hdr-nm" id="hdr-nm"></span>
+    </div>
+    <div class="week-nav">
+      <button onclick="shiftWeek(-1)">‹</button>
+      <span id="week-lbl"></span>
+      <button id="btn-next" onclick="shiftWeek(1)" disabled>›</button>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">Sign out</button>
+  </header>
+
+  <div id="req-banner" style="display:none" onclick="toggleReqPanel()">
+    <div class="rb-left">
+      <span class="rb-dot" id="rb-dot"></span>
+      <span class="rb-txt" id="rb-txt"></span>
+    </div>
+    <span class="rb-chev" id="rb-chev">▾</span>
+  </div>
+  <div id="req-panel" style="display:none"><div id="req-list"></div></div>
+
+  <div id="children-wrap"></div>
+
+  <div id="kid-req-section" style="display:none">
+    <div style="margin:16px">
+      <button class="kid-req-btn" onclick="openReqModal()">+ Send a Request to Parents</button>
+    </div>
+  </div>
+
+  <div id="my-reqs-wrap" style="display:none">
+    <div class="my-reqs">
+      <div class="my-reqs-ttl">My Requests</div>
+      <div id="my-reqs-list"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Spend modal -->
+<div class="modal-bd" id="spend-modal" onclick="if(event.target===this)closeSpend()">
+  <div class="modal-sheet">
+    <div class="modal-title">Log a Purchase</div>
+    <div><div class="modal-lbl">Child</div>
+      <select class="modal-sel" id="sp-child"></select></div>
+    <div><div class="modal-lbl">Amount ($)</div>
+      <input type="number" class="modal-inp" id="sp-amt" placeholder="0.00" step="0.01" min="0.01"></div>
+    <div><div class="modal-lbl">What did they buy?</div>
+      <input type="text" class="modal-inp" id="sp-desc" placeholder="e.g. Roblox, snack, toy…"></div>
+    <div class="modal-row">
+      <button class="btn-cancel" onclick="closeSpend()">Cancel</button>
+      <button class="btn-ok red" onclick="confirmSpend()">Deduct</button>
+    </div>
+  </div>
+</div>
+
+<!-- Kid request modal -->
+<div class="modal-bd" id="req-modal" onclick="if(event.target===this)closeReqModal()">
+  <div class="modal-sheet">
+    <div class="modal-title">Send a Request</div>
+    <div><div class="modal-lbl">What kind of request?</div>
+      <select class="modal-sel" id="rq-type" onchange="onReqTypeChange()">
+        <option value="bonus_request">Extra Earning / Bonus</option>
+        <option value="purchase_request">Permission to Buy Something</option>
+        <option value="chore_dispute">Chore Not Marked Done</option>
+        <option value="other">Other / Question</option>
+      </select></div>
+    <div><div class="modal-lbl">Details</div>
+      <textarea class="modal-ta" id="rq-desc" placeholder="Tell your parents what you need…"></textarea></div>
+    <div id="rq-amt-wrap">
+      <div class="modal-lbl">Dollar amount (optional)</div>
+      <input type="number" class="modal-inp" id="rq-amt" placeholder="0.00" step="0.01" min="0">
+    </div>
+    <div class="modal-row">
+      <button class="btn-cancel" onclick="closeReqModal()">Cancel</button>
+      <button class="btn-ok" onclick="submitReq()">Send →</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+const SB_URL = 'https://zskqjwwcyczezouglzmi.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpza3Fqd3djeWN6ZXpvdWdsem1pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyMDMzMDEsImV4cCI6MjA5Njc3OTMwMX0.ofebeGhucWa6G7MpoUIyJhthK2CnK8PPkAPINg7HW7s';
+const { createClient } = supabase;
+const sb = createClient(SB_URL, SB_KEY);
+
+const PEOPLE = {
+  Joel:  {email:'parent@erickson.family', color:'#7c3aed', role:'parent'},
+  Kayla: {email:'parent@erickson.family', color:'#db2777', role:'parent'},
+  Aaron: {email:'kid@erickson.family',    color:'#2563eb', role:'kid', child:'Aaron'},
+  Davin: {email:'kid@erickson.family',    color:'#059669', role:'kid', child:'Davin'},
+};
+const CHILD_COLORS = {Aaron:'#2563eb', Davin:'#059669'};
+
+let me = null, isParent = false, weekOff = 0;
+let kids = [], txns = [], weeks = [], reqs = [];
+let reqOpen = false, pickedName = null;
+
+/* ── Auth ── */
+async function init() {
+  const {data:{session}} = await sb.auth.getSession();
+  if (session) {
+    me = localStorage.getItem('_allow_name');
+    if (!me || !PEOPLE[me]) { await sb.auth.signOut(); showLogin(); return; }
+    isParent = session.user.email === 'parent@erickson.family';
+    enterApp();
+  } else showLogin();
+}
+
+function showLogin() {
+  document.getElementById('login').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+}
+function enterApp() {
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  const p = PEOPLE[me];
+  const av = document.getElementById('hdr-av');
+  av.textContent = me[0]; av.style.background = p.color;
+  document.getElementById('hdr-nm').textContent = me;
+  document.getElementById('kid-req-section').style.display = isParent ? 'none' : 'block';
+  document.getElementById('my-reqs-wrap').style.display = isParent ? 'none' : 'block';
+  loadData();
+}
+
+function pickName(name) {
+  pickedName = name;
+  document.querySelectorAll('.name-card').forEach(c => c.classList.remove('sel'));
+  document.getElementById('card-' + name).classList.add('sel');
+  document.getElementById('name-grid').style.opacity = '.45';
+  document.getElementById('pw-wrap').style.display = 'flex';
+  document.getElementById('pw-who').innerHTML = `Signing in as <strong>${name}</strong>`;
+  document.getElementById('pw-err').textContent = '';
+  document.getElementById('pw-inp').value = '';
+  document.documentElement.style.setProperty('--accent', PEOPLE[name].color);
+  setTimeout(() => document.getElementById('pw-inp').focus(), 80);
+}
+
+function backToNames() {
+  document.getElementById('pw-wrap').style.display = 'none';
+  document.getElementById('name-grid').style.opacity = '1';
+  document.querySelectorAll('.name-card').forEach(c => c.classList.remove('sel'));
+  pickedName = null;
+}
+
+async function doLogin() {
+  if (!pickedName) return;
+  const pw = document.getElementById('pw-inp').value;
+  const btn = document.getElementById('pw-go');
+  btn.disabled = true; btn.textContent = 'Signing in…';
+  document.getElementById('pw-err').textContent = '';
+
+  const {error} = await sb.auth.signInWithPassword({
+    email: PEOPLE[pickedName].email, password: pw
+  });
+
+  btn.disabled = false; btn.textContent = 'Sign In →';
+  if (error) {
+    const inp = document.getElementById('pw-inp');
+    inp.classList.add('shake');
+    setTimeout(() => inp.classList.remove('shake'), 320);
+    document.getElementById('pw-err').textContent = 'Wrong password — try again';
+    inp.value = ''; inp.focus();
+    return;
+  }
+  me = pickedName;
+  localStorage.setItem('_allow_name', me);
+  isParent = PEOPLE[me].role === 'parent';
+  enterApp();
+}
+
+async function doLogout() {
+  await sb.auth.signOut();
+  localStorage.removeItem('_allow_name');
+  me = null; pickedName = null; weekOff = 0;
+  backToNames();
+  showLogin();
+}
+
+/* ── Week helpers ── */
+function weekKey(off = 0) {
+  const d = new Date(); d.setDate(d.getDate() + off * 7);
+  const jan1 = new Date(d.getFullYear(), 0, 1);
+  const wk = Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
+  return `${d.getFullYear()}-W${String(wk).padStart(2,'0')}`;
+}
+function weekRange(off = 0) {
+  const d = new Date(); d.setDate(d.getDate() + off * 7);
+  const sun = new Date(d); sun.setDate(d.getDate() - d.getDay());
+  const sat = new Date(sun); sat.setDate(sun.getDate() + 6);
+  const f = dt => dt.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  return `${f(sun)} – ${f(sat)}`;
+}
+function shiftWeek(n) {
+  weekOff += n;
+  document.getElementById('btn-next').disabled = weekOff >= 0;
+  updateWkLabel();
+  loadData();
+}
+function updateWkLabel() {
+  const l = weekOff === 0 ? 'This Week' : weekOff === -1 ? 'Last Week' : weekRange(weekOff);
+  document.getElementById('week-lbl').textContent = l;
+}
+
+/* ── Data ── */
+async function loadData() {
+  const wk = weekKey(weekOff);
+  const [
+    {data: ch}, {data: tx}, {data: wk_d}, {data: rq}
+  ] = await Promise.all([
+    sb.from('allowance_children').select('*').order('name'),
+    sb.from('allowance_transactions').select('*').order('created_at',{ascending:false}),
+    sb.from('allowance_weeks').select('*').eq('week_key', wk),
+    sb.from('allowance_requests').select('*').order('created_at',{ascending:false})
+  ]);
+  kids = ch || []; txns = tx || []; weeks = wk_d || []; reqs = rq || [];
+  render();
+}
+
+function balance(name) {
+  return txns.filter(t => t.child_name === name)
+    .reduce((s,t) => s + parseFloat(t.amount || 0), 0);
+}
+function weekRow(name) {
+  return weeks.find(w => w.child_name === name) || {completions:{}, earning_posted:false};
+}
+function calcEarning(child, wd) {
+  const ch = child.chores || [];
+  const done = ch.filter((_,i) => wd.completions?.[String(i)]).length;
+  const pct = ch.length ? done / ch.length : 0;
+  return Math.round(child.weekly_base * pct * 100) / 100;
+}
+
+/* ── Render ── */
+function render() {
+  updateWkLabel();
+  renderReqs();
+  renderKids();
+  if (!isParent) renderMyReqs();
+}
+
+function renderReqs() {
+  if (!isParent) return;
+  const pend = reqs.filter(r => r.status === 'pending');
+  const banner = document.getElementById('req-banner');
+  if (!pend.length) { banner.style.display = 'none'; document.getElementById('req-panel').style.display = 'none'; return; }
+  banner.style.display = 'flex';
+  document.getElementById('rb-dot').textContent = pend.length;
+  document.getElementById('rb-txt').textContent =
+    `${pend.length} pending request${pend.length > 1 ? 's' : ''} from the kids`;
+  document.getElementById('req-list').innerHTML = pend.map(r => `
+    <div class="req-item">
+      <div class="ri-hdr">
+        <span class="ri-child">${r.child_name}</span>
+        <span class="ri-badge rb-${r.type}">${r.type.replace(/_/g,' ')}</span>
+      </div>
+      <div class="ri-desc">${esc(r.description)}</div>
+      ${r.amount ? `<div class="ri-amt">Requesting $${(+r.amount).toFixed(2)}</div>` : ''}
+      <div class="ri-time">${ago(r.created_at)}</div>
+      <div class="ri-acts">
+        <button class="ri-approve" onclick="review('${r.id}','approved',${r.amount||0},'${r.child_name}','${r.type}')">✓ Approve</button>
+        <button class="ri-deny" onclick="review('${r.id}','denied',0,'','')">✗ Deny</button>
+      </div>
+    </div>`).join('');
+}
+
+let reqOpen_ = false;
+function toggleReqPanel() {
+  reqOpen_ = !reqOpen_;
+  document.getElementById('req-panel').style.display = reqOpen_ ? 'block' : 'none';
+  document.getElementById('rb-chev').classList.toggle('open', reqOpen_);
+}
+
+function renderKids() {
+  const wrap = document.getElementById('children-wrap');
+  const visible = isParent ? kids : kids.filter(k => k.name === PEOPLE[me]?.child);
+  if (!visible.length) { wrap.innerHTML = '<div class="empty">No children configured yet.</div>'; return; }
+
+  wrap.innerHTML = visible.map(child => {
+    const wd = weekRow(child.name);
+    const chores = child.chores || [];
+    const bal = balance(child.name);
+    const earn = calcEarning(child, wd);
+    const done = chores.filter((_,i) => wd.completions?.[String(i)]).length;
+    const pct = chores.length ? Math.round(done / chores.length * 100) : 0;
+    const col = CHILD_COLORS[child.name] || '#64748b';
+    const tx10 = txns.filter(t => t.child_name === child.name).slice(0, 12);
+
+    return `<div class="child-card">
+      <div class="ch-hdr">
+        <div class="ch-av" style="background:${col}">${child.name[0]}</div>
+        <div class="ch-info">
+          <div class="ch-name">${child.name}</div>
+          <div class="ch-sub">$${(+child.weekly_base).toFixed(2)}/wk • ${chores.length} chores</div>
+        </div>
+        <div class="ch-bal">
+          <div class="bal-amt ${bal >= 0 ? 'bal-pos' : 'bal-neg'}">
+            ${bal < 0 ? '-' : ''}$${Math.abs(bal).toFixed(2)}</div>
+          <div class="bal-lbl">Balance</div>
+        </div>
+      </div>
+
+      ${chores.length ? `
+      <div class="chores">
+        <div class="chores-ttl">${done}/${chores.length} chores done this week</div>
+        ${chores.map((c, i) => {
+          const isDone = !!wd.completions?.[String(i)];
+          return `<div class="chore-row${isParent ? ' tappable' : ''}"
+            ${isParent ? `onclick="toggleChore('${child.name}',${i},${isDone})"` : ''}>
+            <div class="chk${isDone ? ' done' : ''}"></div>
+            <div class="chore-nm${isDone ? ' done' : ''}">${esc(c)}</div>
+            ${!isParent && !isDone ? `<button class="chore-rep"
+              onclick="event.stopPropagation();reportChore('${child.name}','${esc(c)}')">Report done</button>` : ''}
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="wk-prog">
+        <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+        <span class="prog-lbl">${pct}%</span>
+        <span class="prog-earn">→ $${earn.toFixed(2)}</span>
+      </div>` : '<div class="empty">No chores set up yet</div>'}
+
+      ${isParent ? `<div class="ch-acts">
+        <button class="btn-earn" onclick="postEarning('${child.name}')"
+          ${wd.earning_posted ? 'disabled' : ''}>
+          ${wd.earning_posted ? '✓ Posted' : '+ Post Earned'}</button>
+        <button class="btn-spend" onclick="openSpend('${child.name}')">− Log Spend</button>
+        <button class="btn-hist" onclick="toggleHist('${child.name}')">≡</button>
+      </div>` : ''}
+
+      <div class="hist-section" id="hist-${child.name}" style="display:none">
+        ${tx10.length ? tx10.map(t => `
+          <div class="hist-row">
+            <span class="hist-desc">${esc(t.description || t.type)}</span>
+            <span class="hist-date">${fmtD(t.created_at)}</span>
+            <span class="hist-amt ${+t.amount >= 0 ? 'ha-pos' : 'ha-neg'}">
+              ${+t.amount >= 0 ? '+' : ''}$${Math.abs(+t.amount).toFixed(2)}</span>
+          </div>`).join('') : '<div class="empty">No transactions yet</div>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderMyReqs() {
+  const myChild = PEOPLE[me]?.child;
+  if (!myChild) return;
+  const mine = reqs.filter(r => r.child_name === myChild);
+  const wrap = document.getElementById('my-reqs-wrap');
+  if (!mine.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  document.getElementById('my-reqs-list').innerHTML = mine.map(r => `
+    <div class="mr-item">
+      <div>
+        <div class="mr-desc">${esc(r.description)}</div>
+        ${r.parent_note ? `<div class="mr-note">👋 "${esc(r.parent_note)}"</div>` : ''}
+        <div class="mr-note">${ago(r.created_at)}</div>
+      </div>
+      <span class="pill pill-${r.status}">${r.status}</span>
+    </div>`).join('');
+}
+
+/* ── Actions ── */
+async function toggleChore(name, idx, cur) {
+  const wk = weekKey(weekOff);
+  const wd = weekRow(name);
+  const nc = {...(wd.completions || {})};
+  nc[String(idx)] = !cur;
+  const ex = weeks.find(w => w.child_name === name);
+  if (ex) await sb.from('allowance_weeks').update({completions:nc}).eq('child_name',name).eq('week_key',wk);
+  else await sb.from('allowance_weeks').insert({child_name:name,week_key:wk,completions:nc,earning_posted:false});
+  await loadData();
+}
+
+async function postEarning(name) {
+  const child = kids.find(c => c.name === name);
+  if (!child) return;
+  const wd = weekRow(name);
+  if (wd.earning_posted) { toast('Already posted for this week'); return; }
+  const amt = calcEarning(child, wd);
+  const wk = weekKey(weekOff);
+  const done = (child.chores||[]).filter((_,i) => wd.completions?.[String(i)]).length;
+  await sb.from('allowance_transactions').insert({
+    child_name:name, type:'earning', amount:amt,
+    description:`Week ${wk} — ${done}/${(child.chores||[]).length} chores`,
+    week_key:wk
+  });
+  const ex = weeks.find(w => w.child_name === name);
+  if (ex) await sb.from('allowance_weeks').update({earning_posted:true}).eq('child_name',name).eq('week_key',wk);
+  else await sb.from('allowance_weeks').insert({child_name:name,week_key:wk,completions:{},earning_posted:true});
+  toast(`Posted $${amt.toFixed(2)} for ${name} 🎉`);
+  await loadData();
+}
+
+function toggleHist(name) {
+  const el = document.getElementById('hist-' + name);
+  el.style.display = el.style.display === 'none' ? 'block' : 'none';
+}
+
+async function review(id, status, amount, childName, type) {
+  await sb.from('allowance_requests').update({status, reviewed_at:new Date().toISOString()}).eq('id',id);
+  if (status === 'approved' && +amount > 0 && childName) {
+    await sb.from('allowance_transactions').insert({
+      child_name:childName, type:'adjustment', amount:+amount,
+      description:`Approved: ${type.replace(/_/g,' ')}`, week_key:weekKey(weekOff)
+    });
+  }
+  toast(status === 'approved' ? '✓ Request approved!' : 'Request denied');
+  await loadData();
+}
+
+/* ── Spend modal ── */
+function openSpend(name) {
+  document.getElementById('sp-child').innerHTML =
+    kids.map(k => `<option value="${k.name}" ${k.name===name?'selected':''}>${k.name}</option>`).join('');
+  document.getElementById('sp-amt').value = '';
+  document.getElementById('sp-desc').value = '';
+  document.getElementById('spend-modal').classList.add('open');
+  setTimeout(() => document.getElementById('sp-amt').focus(), 100);
+}
+function closeSpend() { document.getElementById('spend-modal').classList.remove('open'); }
+async function confirmSpend() {
+  const child = document.getElementById('sp-child').value;
+  const amt = parseFloat(document.getElementById('sp-amt').value);
+  const desc = document.getElementById('sp-desc').value.trim();
+  if (!amt || amt <= 0) { toast('Enter a valid amount'); return; }
+  if (!desc) { toast('Add a description'); return; }
+  await sb.from('allowance_transactions').insert({
+    child_name:child, type:'purchase', amount:-amt,
+    description:desc, week_key:weekKey(weekOff)
+  });
+  closeSpend();
+  toast(`−$${amt.toFixed(2)} logged for ${child}`);
+  await loadData();
+}
+
+/* ── Request modal ── */
+function openReqModal(type, desc) {
+  if (type) document.getElementById('rq-type').value = type;
+  document.getElementById('rq-desc').value = desc || '';
+  document.getElementById('rq-amt').value = '';
+  onReqTypeChange();
+  document.getElementById('req-modal').classList.add('open');
+  setTimeout(() => document.getElementById('rq-desc').focus(), 100);
+}
+function closeReqModal() { document.getElementById('req-modal').classList.remove('open'); }
+function onReqTypeChange() {
+  const t = document.getElementById('rq-type').value;
+  document.getElementById('rq-amt-wrap').style.display =
+    (t === 'bonus_request' || t === 'purchase_request') ? 'block' : 'none';
+}
+async function submitReq() {
+  const childName = PEOPLE[me]?.child;
+  if (!childName) return;
+  const type = document.getElementById('rq-type').value;
+  const desc = document.getElementById('rq-desc').value.trim();
+  const amt = parseFloat(document.getElementById('rq-amt').value) || null;
+  if (!desc) { toast('Describe your request first'); return; }
+  await sb.from('allowance_requests').insert({child_name:childName, type, description:desc, amount:amt});
+  closeReqModal();
+  toast('Request sent to parents! 📬');
+  await loadData();
+}
+function reportChore(childName, choreName) {
+  openReqModal('chore_dispute', `I did "${choreName}" but it's not marked done. Can you check?`);
+}
+
+/* ── Utils ── */
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtD(iso) {
+  return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+function ago(iso) {
+  const d = Date.now() - new Date(iso);
+  if (d < 60000) return 'just now';
+  if (d < 3600000) return `${Math.floor(d/60000)}m ago`;
+  if (d < 86400000) return `${Math.floor(d/3600000)}h ago`;
+  return `${Math.floor(d/86400000)}d ago`;
+}
+let _tt;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('show'), 2600);
+}
+
+init();
+</script>
+</body>
+</html>
