@@ -13,188 +13,170 @@
   --bg:#0f172a;--card:#1e293b;--card2:#293548;--border:#334155;
   --text:#f8fafc;--text2:#94a3b8;
   --green:#10b981;--red:#f43f5e;--amber:#f59e0b;--blue:#3b82f6;
-  --accent:#3b82f6;
+  --purple:#7c3aed;--pink:#db2777;--teal:#059669;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  overscroll-behavior:none}
+  overscroll-behavior:none;-webkit-font-smoothing:antialiased}
 
-/* ── Login ── */
+/* ── LOGIN ── */
 #login{min-height:100dvh;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;padding:28px 24px;gap:28px}
-.l-logo{font-size:52px;text-align:center}
-.l-title{font-size:26px;font-weight:700;text-align:center;letter-spacing:-.5px}
-.l-sub{font-size:15px;color:var(--text2);text-align:center;margin-top:4px}
-.name-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:340px}
-.name-card{background:var(--card);border:2px solid var(--border);border-radius:18px;
-  padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;
-  cursor:pointer;color:var(--text);transition:transform .15s,border-color .15s,background .15s}
-.name-card:active{transform:scale(.96)}
-.name-card.sel{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--card))}
-.n-av{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;font-size:22px;font-weight:700;color:#fff}
-.n-nm{font-weight:600;font-size:16px}
-.role-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;
-  text-transform:uppercase;letter-spacing:.5px}
-.rb-parent{background:#7c3aed22;color:#a78bfa;border:1px solid #7c3aed44}
-.rb-kid{background:#2563eb22;color:#93c5fd;border:1px solid #2563eb44}
+  justify-content:center;padding:28px 24px;gap:20px}
+.l-logo{font-size:52px;text-align:center;line-height:1}
+.l-title{font-size:26px;font-weight:800;text-align:center;letter-spacing:-.5px}
+.l-sub{font-size:14px;color:var(--text2);text-align:center;margin-top:-8px}
+.l-form{width:100%;max-width:360px;display:flex;flex-direction:column;gap:12px}
+.l-field{display:flex;flex-direction:column;gap:6px}
+.l-lbl{font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+.l-inp{background:var(--card);border:2px solid var(--border);border-radius:12px;
+  padding:14px 16px;font-size:17px;color:var(--text);outline:none;
+  transition:border-color .15s;font-family:inherit;width:100%}
+.l-inp:focus{border-color:var(--blue)}
+.l-inp.shake{animation:shk .3s}
+@keyframes shk{0%,100%{transform:none}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+.l-btn{background:var(--blue);color:#fff;border:none;border-radius:12px;
+  padding:15px;font-size:16px;font-weight:700;cursor:pointer;
+  transition:opacity .15s;font-family:inherit;margin-top:4px}
+.l-btn:disabled{opacity:.4;cursor:default}
+.l-err{color:var(--red);text-align:center;font-size:13px;min-height:18px}
+.l-forgot{background:none;border:none;color:var(--text2);font-size:13px;
+  cursor:pointer;text-align:center;text-decoration:underline;font-family:inherit;padding:2px}
 
-.pw-wrap{width:100%;max-width:340px;display:flex;flex-direction:column;gap:12px;
-  animation:su .22s ease}
-@keyframes su{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.pw-who{text-align:center;font-size:17px;color:var(--text2)}
-.pw-who strong{color:var(--text)}
-.pw-inp{background:var(--card);border:2px solid var(--border);border-radius:12px;
-  padding:14px 16px;font-size:20px;color:var(--text);width:100%;outline:none;
-  text-align:center;letter-spacing:6px;transition:border-color .15s}
-.pw-inp:focus{border-color:var(--accent)}
-.pw-inp.shake{animation:shk .3s}
-@keyframes shk{0%,100%{transform:none}20%{transform:translateX(-8px)}
-  40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-.pw-go{background:var(--accent);color:#fff;border:none;border-radius:12px;
-  padding:14px;font-size:16px;font-weight:600;cursor:pointer;transition:opacity .15s}
-.pw-go:disabled{opacity:.5}
-.pw-back{background:none;border:none;color:var(--text2);font-size:14px;cursor:pointer;
-  text-align:center;padding:4px}
-.pw-err{color:var(--red);text-align:center;font-size:14px;min-height:18px}
-
-/* ── App shell ── */
-#app{max-width:480px;margin:0 auto;padding-bottom:40px}
-header{background:var(--card);padding:12px 16px;display:flex;align-items:center;
+/* ── APP SHELL ── */
+#app{max-width:480px;margin:0 auto;padding-bottom:64px}
+header{background:var(--card);padding:11px 16px;display:flex;align-items:center;
   justify-content:space-between;position:sticky;top:0;z-index:10;
-  border-bottom:1px solid var(--border)}
-.hdr-user{display:flex;align-items:center;gap:10px}
+  border-bottom:1px solid var(--border);gap:8px}
+.hdr-user{display:flex;align-items:center;gap:10px;min-width:0}
 .hdr-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
-.hdr-nm{font-weight:600;font-size:15px}
-.week-nav{display:flex;align-items:center;gap:6px}
+  justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0}
+.hdr-nm{font-weight:600;font-size:15px;white-space:nowrap}
+.week-nav{display:flex;align-items:center;gap:6px;flex-shrink:0}
 .week-nav button{background:var(--card2);border:1px solid var(--border);color:var(--text);
-  border-radius:8px;width:30px;height:30px;font-size:18px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center}
+  border-radius:8px;width:32px;height:32px;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-family:inherit}
 .week-nav button:disabled{opacity:.3;cursor:default}
-#week-lbl{font-size:12px;font-weight:600;color:var(--text2);white-space:nowrap}
-.logout-btn{background:none;border:1px solid var(--border);color:var(--text2);
-  border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer}
+#week-lbl{font-size:11px;font-weight:600;color:var(--text2);white-space:nowrap;min-width:56px;text-align:center}
+.hdr-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.hdr-btn{background:none;border:1px solid var(--border);color:var(--text2);
+  border-radius:8px;padding:5px 10px;font-size:12px;cursor:pointer;font-family:inherit}
 
-/* ── Requests banner ── */
-#req-banner{margin:12px 16px 0;background:#f59e0b1a;border:1px solid #f59e0b55;
+/* ── REQUESTS BANNER ── */
+#req-banner{margin:12px 16px 0;background:#f59e0b14;border:1px solid #f59e0b44;
   border-radius:12px;padding:11px 14px;display:flex;align-items:center;
   justify-content:space-between;cursor:pointer}
-#req-banner:active{background:#f59e0b28}
 .rb-left{display:flex;align-items:center;gap:10px}
 .rb-dot{background:var(--amber);color:#000;font-size:11px;font-weight:700;
   border-radius:99px;padding:2px 8px}
 .rb-txt{font-size:14px;font-weight:500;color:var(--amber)}
 .rb-chev{color:var(--amber);font-size:16px;transition:transform .2s}
 .rb-chev.open{transform:rotate(180deg)}
-
-/* ── Requests panel ── */
 #req-panel{margin:6px 16px 0;background:var(--card);border:1px solid var(--border);
-  border-radius:16px;overflow:hidden}
+  border-radius:14px;overflow:hidden}
 .req-item{padding:14px 16px;border-bottom:1px solid var(--border)}
 .req-item:last-child{border-bottom:none}
 .ri-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.ri-child{font-weight:600;font-size:14px}
-.ri-badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;
-  text-transform:capitalize}
-.rb-chore_dispute{background:#3b82f622;color:#93c5fd;border:1px solid #3b82f644}
-.rb-bonus_request{background:#10b98122;color:#6ee7b7;border:1px solid #10b98144}
-.rb-purchase_request{background:#f59e0b22;color:#fcd34d;border:1px solid #f59e0b44}
-.rb-other{background:#94a3b822;color:#cbd5e1;border:1px solid #94a3b844}
+.ri-child{font-weight:700;font-size:14px}
+.ri-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px}
+.rb-chore_dispute{background:#3b82f620;color:#93c5fd;border:1px solid #3b82f640}
+.rb-bonus_request{background:#10b98120;color:#6ee7b7;border:1px solid #10b98140}
+.rb-purchase_request{background:#f59e0b20;color:#fcd34d;border:1px solid #f59e0b40}
+.rb-other{background:#94a3b820;color:#cbd5e1;border:1px solid #94a3b840}
 .ri-desc{font-size:14px;color:var(--text2);margin-bottom:4px}
 .ri-amt{font-size:13px;color:var(--green);font-weight:600;margin-bottom:4px}
-.ri-time{font-size:12px;color:var(--text2);margin-bottom:8px}
+.ri-time{font-size:12px;color:var(--text2);margin-bottom:10px}
 .ri-acts{display:flex;gap:8px}
-.ri-approve{flex:1;background:#10b98122;border:1px solid #10b98166;color:var(--green);
-  border-radius:8px;padding:8px;font-size:14px;font-weight:600;cursor:pointer}
-.ri-deny{flex:1;background:#f43f5e22;border:1px solid #f43f5e66;color:var(--red);
-  border-radius:8px;padding:8px;font-size:14px;font-weight:600;cursor:pointer}
+.ri-approve{flex:1;background:#10b98118;border:1px solid #10b98155;color:var(--green);
+  border-radius:8px;padding:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.ri-deny{flex:1;background:#f43f5e18;border:1px solid #f43f5e55;color:var(--red);
+  border-radius:8px;padding:9px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
 
-/* ── Child card ── */
-.child-card{margin:12px 16px 0;background:var(--card);border:1px solid var(--border);
-  border-radius:20px;overflow:hidden}
-.ch-hdr{padding:16px;display:flex;align-items:center;gap:14px}
-.ch-av{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;
-  justify-content:center;font-size:20px;font-weight:700;color:#fff;flex-shrink:0}
-.ch-info{flex:1}
-.ch-name{font-size:18px;font-weight:700}
-.ch-sub{font-size:13px;color:var(--text2);margin-top:1px}
-.ch-bal{text-align:right}
-.bal-amt{font-size:22px;font-weight:700}
+/* ── CHILD TABS (parents only) ── */
+.child-tabs{display:flex;gap:8px;padding:12px 16px 0;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.child-tab{background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;
+  color:var(--text2);font-family:inherit;transition:background .15s,color .15s}
+.child-tab.active{background:color-mix(in srgb,var(--blue) 16%,var(--card));
+  border-color:var(--blue);color:var(--text)}
+.tab-bal{display:block;font-size:11px;font-weight:700;margin-top:1px}
+.tab-pos{color:var(--green)}
+.tab-neg{color:var(--red)}
+
+/* ── CHILD CARD ── */
+.child-card{margin:10px 16px 0;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.cc-hdr{padding:16px 18px;display:flex;align-items:center;gap:14px;border-bottom:1px solid var(--border)}
+.cc-av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;flex-shrink:0}
+.cc-info{flex:1;min-width:0}
+.cc-name{font-size:19px;font-weight:700}
+.cc-sub{font-size:12px;color:var(--text2);margin-top:2px}
+.cc-bal{text-align:right;flex-shrink:0}
+.bal-amt{font-size:24px;font-weight:800;line-height:1}
 .bal-pos{color:var(--green)}
 .bal-neg{color:var(--red)}
-.bal-lbl{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:1px}
+.bal-lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 
-/* Chores */
-.chores{padding:0 16px 12px}
-.chores-ttl{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;
-  letter-spacing:.5px;margin-bottom:8px}
-.chore-row{display:flex;align-items:center;gap:10px;padding:9px 0;
-  border-bottom:1px solid var(--border)}
+/* ── CHORE GRID ── */
+.grid-hdr{display:flex;align-items:center;padding:10px 18px 4px}
+.grid-hdr-label{flex:1;font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px}
+.grid-hdr-days{display:flex;gap:3px}
+.day-col{width:33px;text-align:center;font-size:11px;font-weight:700;color:var(--text2)}
+.day-col.today{color:var(--blue)}
+.chore-rows{padding:0 18px 4px}
+.chore-row{display:flex;align-items:center;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
 .chore-row:last-child{border-bottom:none}
-.chore-row.tappable{cursor:pointer}
-.chk{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  transition:background .15s,border-color .15s}
-.chk.done{background:var(--green);border-color:var(--green)}
-.chk.done::after{content:'✓';color:#fff;font-size:13px;font-weight:700}
-.chore-nm{flex:1;font-size:15px}
-.chore-nm.done{text-decoration:line-through;color:var(--text2)}
-.chore-rep{font-size:12px;color:var(--blue);background:none;border:1px solid #3b82f655;
-  border-radius:6px;padding:3px 8px;cursor:pointer;white-space:nowrap}
+.chore-info{flex:1;min-width:0;padding-right:8px}
+.chore-label{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chore-val{font-size:11px;color:var(--text2);margin-top:1px}
+.chore-days{display:flex;gap:3px;flex-shrink:0}
+.day-btn{width:33px;height:33px;border-radius:8px;border:1px solid var(--border);
+  background:transparent;color:var(--text2);font-size:12px;font-weight:600;
+  cursor:pointer;font-family:inherit;transition:background .1s,color .1s,border-color .1s}
+.day-btn.done{background:var(--green);border-color:var(--green);color:#fff}
+.day-btn.future{opacity:.3;cursor:default}
+.day-btn.locked{opacity:.45;cursor:default}
+.no-chores{padding:14px 18px;font-size:13px;color:var(--text2)}
 
-/* Progress bar */
-.wk-prog{margin:0 16px;padding:10px 0;border-top:1px solid var(--border);
-  display:flex;align-items:center;gap:10px}
-.prog-bar{flex:1;height:6px;background:var(--border);border-radius:99px;overflow:hidden}
-.prog-fill{height:100%;background:var(--green);border-radius:99px;transition:width .4s}
-.prog-lbl{font-size:12px;color:var(--text2);white-space:nowrap}
-.prog-earn{font-size:13px;font-weight:600;color:var(--green);white-space:nowrap}
+/* ── EARN BAR ── */
+.earn-bar{padding:12px 18px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.earn-txt{flex:1;min-width:0;font-size:13px;color:var(--text2)}
+.earn-txt strong{color:var(--text)}
+.btn-post{background:#10b98118;border:1px solid #10b98155;color:var(--green);
+  border-radius:8px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit}
 
-/* Actions */
-.ch-acts{padding:12px 16px;display:flex;gap:8px;border-top:1px solid var(--border)}
-.btn-earn{flex:1;background:#10b98122;border:1px solid #10b98166;color:var(--green);
-  border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer}
-.btn-earn:disabled{opacity:.4;cursor:not-allowed}
-.btn-spend{flex:1;background:#f43f5e22;border:1px solid #f43f5e66;color:var(--red);
-  border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer}
-.btn-hist{background:var(--card2);border:1px solid var(--border);color:var(--text2);
-  border-radius:10px;padding:10px 14px;font-size:15px;cursor:pointer}
+/* ── BALANCE ACTIONS ── */
+.bal-acts{padding:10px 18px 14px;display:flex;gap:8px;border-top:1px solid var(--border)}
+.btn-add{flex:1;background:#10b98118;border:1px solid #10b98155;color:var(--green);border-radius:10px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-spend{flex:1;background:#f43f5e18;border:1px solid #f43f5e55;color:var(--red);border-radius:10px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-hist{background:var(--card2);border:1px solid var(--border);color:var(--text2);border-radius:10px;padding:11px 14px;font-size:16px;cursor:pointer;font-family:inherit}
 
-/* History */
+/* ── HISTORY ── */
 .hist-section{border-top:1px solid var(--border)}
-.hist-row{padding:10px 16px;display:flex;align-items:center;
-  border-bottom:1px solid var(--border);font-size:14px}
+.hist-row{padding:10px 18px;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,0.04);font-size:13px}
 .hist-row:last-child{border-bottom:none}
-.hist-desc{flex:1;color:var(--text2)}
-.hist-date{font-size:11px;color:var(--text2);margin-right:8px}
-.hist-amt{font-weight:600}
+.hist-desc{flex:1;color:var(--text2);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hist-date{font-size:11px;color:var(--text2);margin:0 8px;white-space:nowrap}
+.hist-amt{font-weight:700;white-space:nowrap}
 .ha-pos{color:var(--green)}
 .ha-neg{color:var(--red)}
 
-/* Kid section */
-#kid-req-section{margin:16px}
-.kid-req-btn{width:100%;background:#3b82f622;border:1px solid #3b82f666;color:var(--blue);
-  border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer}
-
-/* My requests */
-.my-reqs{margin:12px 16px 0;background:var(--card);border:1px solid var(--border);
-  border-radius:16px;overflow:hidden}
-.my-reqs-ttl{padding:12px 16px;font-size:12px;font-weight:600;color:var(--text2);
+/* ── KID SECTION ── */
+.kid-actions{padding:16px}
+.btn-kid-req{width:100%;background:#3b82f618;border:1px solid #3b82f655;color:var(--blue);
+  border-radius:12px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+.my-reqs{margin:0 16px;background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.my-reqs-ttl{padding:12px 16px;font-size:11px;font-weight:700;color:var(--text2);
   text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
-.mr-item{padding:12px 16px;border-bottom:1px solid var(--border);
-  display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.mr-item{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
 .mr-item:last-child{border-bottom:none}
 .mr-desc{font-size:14px}
 .mr-note{font-size:12px;color:var(--text2);margin-top:3px}
-.pill{font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;
-  white-space:nowrap;text-transform:uppercase;flex-shrink:0}
-.pill-pending{background:#f59e0b22;color:var(--amber);border:1px solid #f59e0b44}
-.pill-approved{background:#10b98122;color:var(--green);border:1px solid #10b98144}
-.pill-denied{background:#f43f5e22;color:var(--red);border:1px solid #f43f5e44}
+.pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap;text-transform:uppercase;flex-shrink:0}
+.pill-pending{background:#f59e0b18;color:var(--amber);border:1px solid #f59e0b44}
+.pill-approved{background:#10b98118;color:var(--green);border:1px solid #10b98144}
+.pill-denied{background:#f43f5e18;color:var(--red);border:1px solid #f43f5e44}
 
-/* ── Modals ── */
+/* ── MODALS ── */
 .modal-bd{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:100;
   display:none;align-items:flex-end;justify-content:center}
 .modal-bd.open{display:flex}
@@ -204,30 +186,26 @@ header{background:var(--card);padding:12px 16px;display:flex;align-items:center;
   animation:shu .22s ease}
 @keyframes shu{from{transform:translateY(100%)}to{transform:none}}
 .modal-title{font-size:18px;font-weight:700;text-align:center}
-.modal-lbl{font-size:13px;color:var(--text2);font-weight:600;margin-bottom:4px}
-.modal-inp,.modal-sel,.modal-ta{background:var(--card2);border:1px solid var(--border);
-  border-radius:10px;padding:12px 14px;font-size:16px;color:var(--text);
-  width:100%;outline:none;font-family:inherit}
-.modal-ta{min-height:80px;resize:none}
-.modal-inp:focus,.modal-sel:focus,.modal-ta:focus{border-color:var(--blue)}
-.modal-sel option{background:var(--card)}
+.m-lbl{font-size:12px;color:var(--text2);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px}
+.m-inp,.m-sel,.m-ta{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px 14px;font-size:16px;color:var(--text);width:100%;outline:none;font-family:inherit}
+.m-inp:focus,.m-sel:focus,.m-ta:focus{border-color:var(--blue)}
+.m-sel option{background:var(--card)}
+.m-ta{min-height:76px;resize:none}
 .modal-row{display:flex;gap:10px}
-.btn-cancel{flex:1;background:var(--card2);border:1px solid var(--border);
-  color:var(--text2);border-radius:10px;padding:14px;font-size:15px;
-  font-weight:600;cursor:pointer}
-.btn-ok{flex:2;background:var(--blue);border:none;color:#fff;border-radius:10px;
-  padding:14px;font-size:15px;font-weight:600;cursor:pointer}
-.btn-ok.red{background:var(--red)}
+.btn-cancel{flex:1;background:var(--card2);border:1px solid var(--border);color:var(--text2);border-radius:10px;padding:14px;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-ok{flex:2;border:none;color:#fff;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+.ok-green{background:var(--green)}
+.ok-red{background:var(--red)}
+.ok-blue{background:var(--blue)}
+.ok-purple{background:var(--purple)}
 
-/* Toast */
+/* ── TOAST ── */
 #toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;
   transform:translateX(-50%) translateY(80px);background:#1e293b;
   border:1px solid var(--border);color:var(--text);padding:12px 20px;
-  border-radius:12px;font-size:14px;font-weight:500;transition:transform .3s;
+  border-radius:12px;font-size:14px;font-weight:500;transition:transform .28s;
   z-index:200;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.4)}
 #toast.show{transform:translateX(-50%) translateY(0)}
-
-.empty{padding:20px;text-align:center;color:var(--text2);font-size:14px}
 </style>
 </head>
 <body>
@@ -237,40 +215,24 @@ header{background:var(--card);padding:12px 16px;display:flex;align-items:center;
   <div>
     <div class="l-logo">💰</div>
     <div class="l-title">Erickson Allowance</div>
-    <div class="l-sub">Who's using the app?</div>
+    <div class="l-sub">Sign in to manage chores &amp; spending</div>
   </div>
-
-  <div class="name-grid" id="name-grid">
-    <button class="name-card" id="card-Joel" onclick="pickName('Joel')">
-      <div class="n-av" style="background:#7c3aed">J</div>
-      <div class="n-nm">Joel</div>
-      <div class="role-badge rb-parent">Parent</div>
-    </button>
-    <button class="name-card" id="card-Kayla" onclick="pickName('Kayla')">
-      <div class="n-av" style="background:#db2777">K</div>
-      <div class="n-nm">Kayla</div>
-      <div class="role-badge rb-parent">Parent</div>
-    </button>
-    <button class="name-card" id="card-Aaron" onclick="pickName('Aaron')">
-      <div class="n-av" style="background:#2563eb">A</div>
-      <div class="n-nm">Aaron</div>
-      <div class="role-badge rb-kid">Kid</div>
-    </button>
-    <button class="name-card" id="card-Davin" onclick="pickName('Davin')">
-      <div class="n-av" style="background:#059669">D</div>
-      <div class="n-nm">Davin</div>
-      <div class="role-badge rb-kid">Kid</div>
-    </button>
-  </div>
-
-  <div class="pw-wrap" id="pw-wrap" style="display:none">
-    <div class="pw-who" id="pw-who"></div>
-    <input type="password" id="pw-inp" class="pw-inp" placeholder="Password"
-      autocomplete="current-password"
-      onkeydown="if(event.key==='Enter')doLogin()">
-    <button class="pw-go" id="pw-go" onclick="doLogin()">Sign In →</button>
-    <button class="pw-back" onclick="backToNames()">← Change name</button>
-    <div class="pw-err" id="pw-err"></div>
+  <div class="l-form">
+    <div class="l-field">
+      <label class="l-lbl" for="l-email">Email</label>
+      <input id="l-email" class="l-inp" type="email" inputmode="email"
+        autocomplete="email" placeholder="your@email.com"
+        onkeydown="if(event.key==='Enter')document.getElementById('l-pw').focus()">
+    </div>
+    <div class="l-field">
+      <label class="l-lbl" for="l-pw">Password</label>
+      <input id="l-pw" class="l-inp" type="password"
+        autocomplete="current-password" placeholder="Password"
+        onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <div class="l-err" id="l-err"></div>
+    <button class="l-btn" id="l-btn" onclick="doLogin()">Sign In →</button>
+    <button class="l-forgot" onclick="doForgot()">Forgot password?</button>
   </div>
 </div>
 
@@ -284,11 +246,15 @@ header{background:var(--card);padding:12px 16px;display:flex;align-items:center;
     <div class="week-nav">
       <button onclick="shiftWeek(-1)">‹</button>
       <span id="week-lbl"></span>
-      <button id="btn-next" onclick="shiftWeek(1)" disabled>›</button>
+      <button id="btn-next-wk" onclick="shiftWeek(1)" disabled>›</button>
     </div>
-    <button class="logout-btn" onclick="doLogout()">Sign out</button>
+    <div class="hdr-right">
+      <button class="hdr-btn" onclick="openPwModal()" title="Change password">🔑</button>
+      <button class="hdr-btn" onclick="doLogout()">Sign out</button>
+    </div>
   </header>
 
+  <!-- Pending requests banner (parents only) -->
   <div id="req-banner" style="display:none" onclick="toggleReqPanel()">
     <div class="rb-left">
       <span class="rb-dot" id="rb-dot"></span>
@@ -298,59 +264,98 @@ header{background:var(--card);padding:12px 16px;display:flex;align-items:center;
   </div>
   <div id="req-panel" style="display:none"><div id="req-list"></div></div>
 
-  <div id="children-wrap"></div>
-
-  <div id="kid-req-section" style="display:none">
-    <div style="margin:16px">
-      <button class="kid-req-btn" onclick="openReqModal()">+ Send a Request to Parents</button>
-    </div>
+  <!-- Child tabs (parents only) -->
+  <div id="child-tabs-wrap" style="display:none">
+    <div class="child-tabs" id="child-tabs"></div>
   </div>
 
-  <div id="my-reqs-wrap" style="display:none">
-    <div class="my-reqs">
-      <div class="my-reqs-ttl">My Requests</div>
-      <div id="my-reqs-list"></div>
+  <!-- Active child card -->
+  <div id="child-card-wrap"></div>
+
+  <!-- Kid: my requests -->
+  <div id="kid-section" style="display:none">
+    <div class="kid-actions">
+      <button class="btn-kid-req" onclick="openReqModal()">+ Send a Request to Parents</button>
+    </div>
+    <div id="my-reqs-wrap" style="display:none">
+      <div class="my-reqs">
+        <div class="my-reqs-ttl">My Requests</div>
+        <div id="my-reqs-list"></div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- Spend modal -->
+<!-- Add Funds -->
+<div class="modal-bd" id="add-modal" onclick="if(event.target===this)closeAdd()">
+  <div class="modal-sheet">
+    <div class="modal-title">Add Funds</div>
+    <div><div class="m-lbl">Child</div><select class="m-sel" id="add-child"></select></div>
+    <div><div class="m-lbl">Amount ($)</div>
+      <input type="number" class="m-inp" id="add-amt" placeholder="0.00" step="0.01" min="0.01" inputmode="decimal"></div>
+    <div><div class="m-lbl">Reason</div>
+      <input type="text" class="m-inp" id="add-desc" placeholder="Birthday money, bonus, gift…"></div>
+    <div class="modal-row">
+      <button class="btn-cancel" onclick="closeAdd()">Cancel</button>
+      <button class="btn-ok ok-green" onclick="confirmAdd()">+ Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- Log Spend -->
 <div class="modal-bd" id="spend-modal" onclick="if(event.target===this)closeSpend()">
   <div class="modal-sheet">
     <div class="modal-title">Log a Purchase</div>
-    <div><div class="modal-lbl">Child</div>
-      <select class="modal-sel" id="sp-child"></select></div>
-    <div><div class="modal-lbl">Amount ($)</div>
-      <input type="number" class="modal-inp" id="sp-amt" placeholder="0.00" step="0.01" min="0.01"></div>
-    <div><div class="modal-lbl">What did they buy?</div>
-      <input type="text" class="modal-inp" id="sp-desc" placeholder="e.g. Roblox, snack, toy…"></div>
+    <div><div class="m-lbl">Child</div><select class="m-sel" id="sp-child"></select></div>
+    <div><div class="m-lbl">Amount ($)</div>
+      <input type="number" class="m-inp" id="sp-amt" placeholder="0.00" step="0.01" min="0.01" inputmode="decimal"></div>
+    <div><div class="m-lbl">What did they buy?</div>
+      <input type="text" class="m-inp" id="sp-desc" placeholder="Roblox, snack, toy…"></div>
     <div class="modal-row">
       <button class="btn-cancel" onclick="closeSpend()">Cancel</button>
-      <button class="btn-ok red" onclick="confirmSpend()">Deduct</button>
+      <button class="btn-ok ok-red" onclick="confirmSpend()">− Deduct</button>
     </div>
   </div>
 </div>
 
-<!-- Kid request modal -->
+<!-- Kid Request -->
 <div class="modal-bd" id="req-modal" onclick="if(event.target===this)closeReqModal()">
   <div class="modal-sheet">
     <div class="modal-title">Send a Request</div>
-    <div><div class="modal-lbl">What kind of request?</div>
-      <select class="modal-sel" id="rq-type" onchange="onReqTypeChange()">
+    <div><div class="m-lbl">Type</div>
+      <select class="m-sel" id="rq-type" onchange="onRqTypeChange()">
         <option value="bonus_request">Extra Earning / Bonus</option>
         <option value="purchase_request">Permission to Buy Something</option>
         <option value="chore_dispute">Chore Not Marked Done</option>
         <option value="other">Other / Question</option>
       </select></div>
-    <div><div class="modal-lbl">Details</div>
-      <textarea class="modal-ta" id="rq-desc" placeholder="Tell your parents what you need…"></textarea></div>
+    <div><div class="m-lbl">Details</div>
+      <textarea class="m-ta" id="rq-desc" placeholder="Tell your parents what you need…"></textarea></div>
     <div id="rq-amt-wrap">
-      <div class="modal-lbl">Dollar amount (optional)</div>
-      <input type="number" class="modal-inp" id="rq-amt" placeholder="0.00" step="0.01" min="0">
+      <div class="m-lbl">Dollar amount (optional)</div>
+      <input type="number" class="m-inp" id="rq-amt" placeholder="0.00" step="0.01" min="0" inputmode="decimal">
     </div>
     <div class="modal-row">
       <button class="btn-cancel" onclick="closeReqModal()">Cancel</button>
-      <button class="btn-ok" onclick="submitReq()">Send →</button>
+      <button class="btn-ok ok-blue" onclick="submitReq()">Send →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Change Password -->
+<div class="modal-bd" id="pw-modal" onclick="if(event.target===this)closePwModal()">
+  <div class="modal-sheet">
+    <div class="modal-title">Change Password</div>
+    <div><div class="m-lbl">New Password</div>
+      <input type="password" class="m-inp" id="new-pw" placeholder="At least 6 characters"
+        autocomplete="new-password"></div>
+    <div><div class="m-lbl">Confirm Password</div>
+      <input type="password" class="m-inp" id="confirm-pw" placeholder="Repeat password"
+        autocomplete="new-password"></div>
+    <div class="l-err" id="pw-err"></div>
+    <div class="modal-row">
+      <button class="btn-cancel" onclick="closePwModal()">Cancel</button>
+      <button class="btn-ok ok-purple" onclick="confirmPwChange()">Update Password</button>
     </div>
   </div>
 </div>
@@ -363,271 +368,311 @@ const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJ
 const { createClient } = supabase;
 const sb = createClient(SB_URL, SB_KEY);
 
-const PEOPLE = {
-  Joel:  {email:'parent@erickson.family', color:'#7c3aed', role:'parent'},
-  Kayla: {email:'parent@erickson.family', color:'#db2777', role:'parent'},
-  Aaron: {email:'kid@erickson.family',    color:'#2563eb', role:'kid', child:'Aaron'},
-  Davin: {email:'kid@erickson.family',    color:'#059669', role:'kid', child:'Davin'},
+// Fallback map in case user_metadata isn't set (shouldn't happen for our accounts)
+const EMAIL_PEOPLE = {
+  'joel.m.erickson@me.com':     { name:'Joel',  role:'parent', color:'#7c3aed' },
+  'kayla.s.erickson@gmail.com': { name:'Kayla', role:'parent', color:'#db2777' },
+  'aaron.g.erickson@gmail.com': { name:'Aaron', role:'kid', child:'Aaron', color:'#2563eb' },
+  'davin.c.erickson@gmail.com': { name:'Davin', role:'kid', child:'Davin', color:'#059669' },
 };
-const CHILD_COLORS = {Aaron:'#2563eb', Davin:'#059669'};
+const COLORS = { Joel:'#7c3aed', Kayla:'#db2777', Aaron:'#2563eb', Davin:'#059669' };
+const DAY_LETTERS = ['M','T','W','T','F','S','S'];
 
-let me = null, isParent = false, weekOff = 0;
-let kids = [], txns = [], weeks = [], reqs = [];
-let reqOpen = false, pickedName = null;
+let me = null, weekOff = 0, activeChild = null;
+let kids = [], txns = [], weeks = [], reqs = [], reqPanelOpen = false, histOpen = {};
+
+/* ── Week key: Monday-date format, matches kiosk dashboard ── */
+function weekKey(off = 0) {
+  const d = new Date(), day = d.getDay();
+  const mon = new Date(d);
+  mon.setDate(d.getDate() - ((day + 6) % 7) + off * 7);
+  mon.setHours(0, 0, 0, 0);
+  return mon.toISOString().split('T')[0];
+}
+function weekRange(off = 0) {
+  const wk = weekKey(off), mon = new Date(wk), sun = new Date(mon);
+  sun.setDate(mon.getDate() + 6);
+  const f = d => d.toLocaleDateString('en-US', { month:'short', day:'numeric' });
+  return `${f(mon)} – ${f(sun)}`;
+}
+function shiftWeek(n) {
+  weekOff += n;
+  document.getElementById('btn-next-wk').disabled = weekOff >= 0;
+  loadData();
+}
 
 /* ── Auth ── */
 async function init() {
-  const {data:{session}} = await sb.auth.getSession();
-  if (session) {
-    me = localStorage.getItem('_allow_name');
-    if (!me || !PEOPLE[me]) { await sb.auth.signOut(); showLogin(); return; }
-    isParent = session.user.email === 'parent@erickson.family';
-    enterApp();
-  } else showLogin();
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) { resolveMe(session.user); enterApp(); }
+  else showLogin();
+  // Handle password reset links (email link lands with #access_token)
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'PASSWORD_RECOVERY') openPwModal();
+  });
+}
+
+function resolveMe(user) {
+  const meta = user.user_metadata || {};
+  const fallback = EMAIL_PEOPLE[user.email] || {};
+  me = {
+    name:  meta.name  || fallback.name  || user.email.split('@')[0],
+    role:  meta.role  || fallback.role  || 'kid',
+    child: meta.child || fallback.child || null,
+    color: COLORS[meta.name] || fallback.color || '#64748b',
+    email: user.email,
+  };
 }
 
 function showLogin() {
   document.getElementById('login').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
 }
-function enterApp() {
-  document.getElementById('login').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  const p = PEOPLE[me];
-  const av = document.getElementById('hdr-av');
-  av.textContent = me[0]; av.style.background = p.color;
-  document.getElementById('hdr-nm').textContent = me;
-  document.getElementById('kid-req-section').style.display = isParent ? 'none' : 'block';
-  document.getElementById('my-reqs-wrap').style.display = isParent ? 'none' : 'block';
-  loadData();
-}
-
-function pickName(name) {
-  pickedName = name;
-  document.querySelectorAll('.name-card').forEach(c => c.classList.remove('sel'));
-  document.getElementById('card-' + name).classList.add('sel');
-  document.getElementById('name-grid').style.opacity = '.45';
-  document.getElementById('pw-wrap').style.display = 'flex';
-  document.getElementById('pw-who').innerHTML = `Signing in as <strong>${name}</strong>`;
-  document.getElementById('pw-err').textContent = '';
-  document.getElementById('pw-inp').value = '';
-  document.documentElement.style.setProperty('--accent', PEOPLE[name].color);
-  setTimeout(() => document.getElementById('pw-inp').focus(), 80);
-}
-
-function backToNames() {
-  document.getElementById('pw-wrap').style.display = 'none';
-  document.getElementById('name-grid').style.opacity = '1';
-  document.querySelectorAll('.name-card').forEach(c => c.classList.remove('sel'));
-  pickedName = null;
-}
 
 async function doLogin() {
-  if (!pickedName) return;
-  const pw = document.getElementById('pw-inp').value;
-  const btn = document.getElementById('pw-go');
+  const email = document.getElementById('l-email').value.trim();
+  const pw = document.getElementById('l-pw').value;
+  const btn = document.getElementById('l-btn');
+  document.getElementById('l-err').textContent = '';
+  if (!email || !pw) { document.getElementById('l-err').textContent = 'Enter your email and password'; return; }
   btn.disabled = true; btn.textContent = 'Signing in…';
-  document.getElementById('pw-err').textContent = '';
-
-  const {error} = await sb.auth.signInWithPassword({
-    email: PEOPLE[pickedName].email, password: pw
-  });
-
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
   btn.disabled = false; btn.textContent = 'Sign In →';
   if (error) {
-    const inp = document.getElementById('pw-inp');
+    const inp = document.getElementById('l-pw');
     inp.classList.add('shake');
     setTimeout(() => inp.classList.remove('shake'), 320);
-    document.getElementById('pw-err').textContent = 'Wrong password — try again';
-    inp.value = ''; inp.focus();
-    return;
+    document.getElementById('l-err').textContent = 'Incorrect email or password';
+    inp.value = ''; return;
   }
-  me = pickedName;
-  localStorage.setItem('_allow_name', me);
-  isParent = PEOPLE[me].role === 'parent';
+  resolveMe(data.user);
   enterApp();
+}
+
+async function doForgot() {
+  const email = document.getElementById('l-email').value.trim();
+  if (!email) { document.getElementById('l-err').textContent = 'Enter your email address first'; return; }
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.href,
+  });
+  if (error) { document.getElementById('l-err').textContent = error.message; }
+  else { document.getElementById('l-err').style.color = 'var(--green)'; document.getElementById('l-err').textContent = 'Check your email for a reset link ✓'; }
 }
 
 async function doLogout() {
   await sb.auth.signOut();
-  localStorage.removeItem('_allow_name');
-  me = null; pickedName = null; weekOff = 0;
-  backToNames();
+  me = null; weekOff = 0; activeChild = null; histOpen = {};
+  document.getElementById('l-email').value = '';
+  document.getElementById('l-pw').value = '';
+  document.getElementById('l-err').textContent = '';
+  document.getElementById('l-err').style.color = '';
   showLogin();
 }
 
-/* ── Week helpers ── */
-function weekKey(off = 0) {
-  const d = new Date(); d.setDate(d.getDate() + off * 7);
-  const jan1 = new Date(d.getFullYear(), 0, 1);
-  const wk = Math.ceil(((d - jan1) / 86400000 + jan1.getDay() + 1) / 7);
-  return `${d.getFullYear()}-W${String(wk).padStart(2,'0')}`;
-}
-function weekRange(off = 0) {
-  const d = new Date(); d.setDate(d.getDate() + off * 7);
-  const sun = new Date(d); sun.setDate(d.getDate() - d.getDay());
-  const sat = new Date(sun); sat.setDate(sun.getDate() + 6);
-  const f = dt => dt.toLocaleDateString('en-US',{month:'short',day:'numeric'});
-  return `${f(sun)} – ${f(sat)}`;
-}
-function shiftWeek(n) {
-  weekOff += n;
-  document.getElementById('btn-next').disabled = weekOff >= 0;
-  updateWkLabel();
+function enterApp() {
+  document.getElementById('login').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  const av = document.getElementById('hdr-av');
+  av.textContent = me.name[0]; av.style.background = me.color;
+  document.getElementById('hdr-nm').textContent = me.name;
+  const isParent = me.role === 'parent';
+  document.getElementById('child-tabs-wrap').style.display = isParent ? 'block' : 'none';
+  document.getElementById('kid-section').style.display = isParent ? 'none' : 'block';
+  if (!isParent) activeChild = me.child;
   loadData();
-}
-function updateWkLabel() {
-  const l = weekOff === 0 ? 'This Week' : weekOff === -1 ? 'Last Week' : weekRange(weekOff);
-  document.getElementById('week-lbl').textContent = l;
 }
 
 /* ── Data ── */
 async function loadData() {
   const wk = weekKey(weekOff);
-  const [
-    {data: ch}, {data: tx}, {data: wk_d}, {data: rq}
-  ] = await Promise.all([
+  const lbl = document.getElementById('week-lbl');
+  lbl.textContent = weekOff === 0 ? 'This Wk' : weekOff === -1 ? 'Last Wk' : weekRange(weekOff);
+
+  const [{ data: ch }, { data: tx }, { data: wkd }, { data: rq }] = await Promise.all([
     sb.from('allowance_children').select('*').order('name'),
-    sb.from('allowance_transactions').select('*').order('created_at',{ascending:false}),
+    sb.from('allowance_transactions').select('*').order('created_at', { ascending: false }),
     sb.from('allowance_weeks').select('*').eq('week_key', wk),
-    sb.from('allowance_requests').select('*').order('created_at',{ascending:false})
+    sb.from('allowance_requests').select('*').order('created_at', { ascending: false }),
   ]);
-  kids = ch || []; txns = tx || []; weeks = wk_d || []; reqs = rq || [];
+  kids = ch || []; txns = tx || []; weeks = wkd || []; reqs = rq || [];
+
+  const isParent = me?.role === 'parent';
+  if (isParent && !activeChild && kids.length) activeChild = kids[0].name;
   render();
 }
 
-function balance(name) {
-  return txns.filter(t => t.child_name === name)
-    .reduce((s,t) => s + parseFloat(t.amount || 0), 0);
+/* ── Helpers ── */
+function choreDays(v) { return Array.isArray(v) ? v : (v === true ? [0] : []); }
+function weekEarned(child, wd) {
+  return (child.chores || []).reduce((sum, ch) =>
+    sum + choreDays(wd.completions?.[ch.id]).length * (parseFloat(ch.value) || 0), 0);
 }
-function weekRow(name) {
-  return weeks.find(w => w.child_name === name) || {completions:{}, earning_posted:false};
+function getBalance(name) {
+  return txns.filter(t => t.child_name === name).reduce((s, t) => s + parseFloat(t.amount || 0), 0);
 }
-function calcEarning(child, wd) {
-  const ch = child.chores || [];
-  const done = ch.filter((_,i) => wd.completions?.[String(i)]).length;
-  const pct = ch.length ? done / ch.length : 0;
-  return Math.round(child.weekly_base * pct * 100) / 100;
+function getWeekData(name) {
+  return weeks.find(w => w.child_name === name) || { completions: {} };
+}
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtD(iso) { return new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric' }); }
+function ago(iso) {
+  const d = Date.now() - new Date(iso);
+  if (d < 60000) return 'just now';
+  if (d < 3600000) return `${Math.floor(d/60000)}m ago`;
+  if (d < 86400000) return `${Math.floor(d/3600000)}h ago`;
+  return `${Math.floor(d/86400000)}d ago`;
 }
 
 /* ── Render ── */
 function render() {
-  updateWkLabel();
   renderReqs();
-  renderKids();
-  if (!isParent) renderMyReqs();
+  if (me?.role === 'parent') renderTabs();
+  renderChildCard();
+  if (me?.role === 'kid') renderMyReqs();
 }
 
 function renderReqs() {
-  if (!isParent) return;
+  if (me?.role !== 'parent') return;
   const pend = reqs.filter(r => r.status === 'pending');
   const banner = document.getElementById('req-banner');
-  if (!pend.length) { banner.style.display = 'none'; document.getElementById('req-panel').style.display = 'none'; return; }
+  if (!pend.length) { banner.style.display = 'none'; document.getElementById('req-panel').style.display = 'none'; reqPanelOpen = false; return; }
   banner.style.display = 'flex';
   document.getElementById('rb-dot').textContent = pend.length;
-  document.getElementById('rb-txt').textContent =
-    `${pend.length} pending request${pend.length > 1 ? 's' : ''} from the kids`;
+  document.getElementById('rb-txt').textContent = `${pend.length} pending request${pend.length > 1 ? 's' : ''}`;
   document.getElementById('req-list').innerHTML = pend.map(r => `
     <div class="req-item">
       <div class="ri-hdr">
-        <span class="ri-child">${r.child_name}</span>
+        <span class="ri-child">${esc(r.child_name)}</span>
         <span class="ri-badge rb-${r.type}">${r.type.replace(/_/g,' ')}</span>
       </div>
       <div class="ri-desc">${esc(r.description)}</div>
       ${r.amount ? `<div class="ri-amt">Requesting $${(+r.amount).toFixed(2)}</div>` : ''}
       <div class="ri-time">${ago(r.created_at)}</div>
       <div class="ri-acts">
-        <button class="ri-approve" onclick="review('${r.id}','approved',${r.amount||0},'${r.child_name}','${r.type}')">✓ Approve</button>
-        <button class="ri-deny" onclick="review('${r.id}','denied',0,'','')">✗ Deny</button>
+        <button class="ri-approve" onclick="reviewReq('${r.id}','approved',${r.amount||0},'${esc(r.child_name)}','${r.type}')">✓ Approve</button>
+        <button class="ri-deny" onclick="reviewReq('${r.id}','denied',0,'','')">✗ Deny</button>
       </div>
     </div>`).join('');
 }
 
-let reqOpen_ = false;
 function toggleReqPanel() {
-  reqOpen_ = !reqOpen_;
-  document.getElementById('req-panel').style.display = reqOpen_ ? 'block' : 'none';
-  document.getElementById('rb-chev').classList.toggle('open', reqOpen_);
+  reqPanelOpen = !reqPanelOpen;
+  document.getElementById('req-panel').style.display = reqPanelOpen ? 'block' : 'none';
+  document.getElementById('rb-chev').classList.toggle('open', reqPanelOpen);
 }
 
-function renderKids() {
-  const wrap = document.getElementById('children-wrap');
-  const visible = isParent ? kids : kids.filter(k => k.name === PEOPLE[me]?.child);
-  if (!visible.length) { wrap.innerHTML = '<div class="empty">No children configured yet.</div>'; return; }
-
-  wrap.innerHTML = visible.map(child => {
-    const wd = weekRow(child.name);
-    const chores = child.chores || [];
-    const bal = balance(child.name);
-    const earn = calcEarning(child, wd);
-    const done = chores.filter((_,i) => wd.completions?.[String(i)]).length;
-    const pct = chores.length ? Math.round(done / chores.length * 100) : 0;
-    const col = CHILD_COLORS[child.name] || '#64748b';
-    const tx10 = txns.filter(t => t.child_name === child.name).slice(0, 12);
-
-    return `<div class="child-card">
-      <div class="ch-hdr">
-        <div class="ch-av" style="background:${col}">${child.name[0]}</div>
-        <div class="ch-info">
-          <div class="ch-name">${child.name}</div>
-          <div class="ch-sub">$${(+child.weekly_base).toFixed(2)}/wk • ${chores.length} chores</div>
-        </div>
-        <div class="ch-bal">
-          <div class="bal-amt ${bal >= 0 ? 'bal-pos' : 'bal-neg'}">
-            ${bal < 0 ? '-' : ''}$${Math.abs(bal).toFixed(2)}</div>
-          <div class="bal-lbl">Balance</div>
-        </div>
-      </div>
-
-      ${chores.length ? `
-      <div class="chores">
-        <div class="chores-ttl">${done}/${chores.length} chores done this week</div>
-        ${chores.map((c, i) => {
-          const isDone = !!wd.completions?.[String(i)];
-          return `<div class="chore-row${isParent ? ' tappable' : ''}"
-            ${isParent ? `onclick="toggleChore('${child.name}',${i},${isDone})"` : ''}>
-            <div class="chk${isDone ? ' done' : ''}"></div>
-            <div class="chore-nm${isDone ? ' done' : ''}">${esc(c)}</div>
-            ${!isParent && !isDone ? `<button class="chore-rep"
-              onclick="event.stopPropagation();reportChore('${child.name}','${esc(c)}')">Report done</button>` : ''}
-          </div>`;
-        }).join('')}
-      </div>
-      <div class="wk-prog">
-        <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
-        <span class="prog-lbl">${pct}%</span>
-        <span class="prog-earn">→ $${earn.toFixed(2)}</span>
-      </div>` : '<div class="empty">No chores set up yet</div>'}
-
-      ${isParent ? `<div class="ch-acts">
-        <button class="btn-earn" onclick="postEarning('${child.name}')"
-          ${wd.earning_posted ? 'disabled' : ''}>
-          ${wd.earning_posted ? '✓ Posted' : '+ Post Earned'}</button>
-        <button class="btn-spend" onclick="openSpend('${child.name}')">− Log Spend</button>
-        <button class="btn-hist" onclick="toggleHist('${child.name}')">≡</button>
-      </div>` : ''}
-
-      <div class="hist-section" id="hist-${child.name}" style="display:none">
-        ${tx10.length ? tx10.map(t => `
-          <div class="hist-row">
-            <span class="hist-desc">${esc(t.description || t.type)}</span>
-            <span class="hist-date">${fmtD(t.created_at)}</span>
-            <span class="hist-amt ${+t.amount >= 0 ? 'ha-pos' : 'ha-neg'}">
-              ${+t.amount >= 0 ? '+' : ''}$${Math.abs(+t.amount).toFixed(2)}</span>
-          </div>`).join('') : '<div class="empty">No transactions yet</div>'}
-      </div>
-    </div>`;
+function renderTabs() {
+  document.getElementById('child-tabs').innerHTML = kids.map(child => {
+    const bal = getBalance(child.name);
+    const pos = bal >= 0;
+    return `<button class="child-tab${child.name === activeChild ? ' active' : ''}" onclick="setActive('${child.name}')">
+      ${child.name}
+      <span class="tab-bal ${pos ? 'tab-pos' : 'tab-neg'}">${pos?'':'-'}$${Math.abs(bal).toFixed(2)}</span>
+    </button>`;
   }).join('');
 }
 
+function setActive(name) { activeChild = name; renderTabs(); renderChildCard(); }
+
+function renderChildCard() {
+  const wrap = document.getElementById('child-card-wrap');
+  const child = kids.find(k => k.name === activeChild);
+  if (!child) { wrap.innerHTML = ''; return; }
+
+  const wd = getWeekData(child.name);
+  const chores = child.chores || [];
+  const bal = getBalance(child.name);
+  const earned = weekEarned(child, wd);
+  const posted = parseFloat(wd.posted_amount) || 0;
+  const unposted = Math.max(0, earned - posted);
+  const isPast = weekOff < 0;
+  const todayIdx = (new Date().getDay() + 6) % 7;
+  const isParent = me?.role === 'parent';
+  const isMyCard = me?.child === child.name;
+  const canToggle = isParent || isMyCard;
+  const color = COLORS[child.name] || '#64748b';
+
+  const totalDone = chores.reduce((n, ch) => n + choreDays(wd.completions?.[ch.id]).length, 0);
+
+  const dayHdrs = DAY_LETTERS.map((l, i) =>
+    `<div class="day-col${!isPast && i === todayIdx ? ' today' : ''}">${l}</div>`).join('');
+
+  const choreRowsHtml = chores.length ? chores.map(ch => {
+    const days = choreDays(wd.completions?.[ch.id]);
+    const btns = DAY_LETTERS.map((l, i) => {
+      const done = days.includes(i);
+      let cls = 'day-btn' + (done ? ' done' : '');
+      const tappable = canToggle && !isPast && i <= todayIdx;
+      if (isPast) cls += ' locked';
+      else if (i > todayIdx) cls += ' future';
+      return `<button class="${cls}" ${tappable ? `onclick="toggleChoreDay('${child.name}','${ch.id}',${i})"` : 'disabled'}>${done ? '✓' : l}</button>`;
+    }).join('');
+    return `<div class="chore-row">
+      <div class="chore-info">
+        <div class="chore-label">${esc(ch.label)}</div>
+        <div class="chore-val">$${(parseFloat(ch.value)||0).toFixed(2)} each</div>
+      </div>
+      <div class="chore-days">${btns}</div>
+    </div>`;
+  }).join('') : '<div class="no-chores">No chores set up yet — add them on the home screen</div>';
+
+  const tx10 = txns.filter(t => t.child_name === child.name).slice(0, 10);
+  const histHtml = tx10.length ? `
+    <div class="hist-section" id="hist-${child.name}" style="display:${histOpen[child.name]?'block':'none'}">
+      ${tx10.map(t => {
+        const pos = parseFloat(t.amount) >= 0;
+        return `<div class="hist-row">
+          <span class="hist-desc">${esc(t.description || t.type)}</span>
+          <span class="hist-date">${fmtD(t.created_at)}</span>
+          <span class="hist-amt ${pos?'ha-pos':'ha-neg'}">${pos?'+':'−'}$${Math.abs(parseFloat(t.amount)).toFixed(2)}</span>
+        </div>`;
+      }).join('')}
+    </div>` : '';
+
+  wrap.innerHTML = `<div class="child-card">
+    <div class="cc-hdr">
+      <div class="cc-av" style="background:${color}">${child.name[0]}</div>
+      <div class="cc-info">
+        <div class="cc-name">${child.name}</div>
+        <div class="cc-sub">${chores.length} chore${chores.length!==1?'s':''} · $${(parseFloat(child.weekly_base)||0).toFixed(2)}/wk base</div>
+      </div>
+      <div class="cc-bal">
+        <div class="bal-amt ${bal>=0?'bal-pos':'bal-neg'}">${bal<0?'−':''}$${Math.abs(bal).toFixed(2)}</div>
+        <div class="bal-lbl">Balance</div>
+      </div>
+    </div>
+
+    <div class="grid-hdr">
+      <div class="grid-hdr-label">${totalDone} completion${totalDone!==1?'s':''} this week</div>
+      <div class="grid-hdr-days">${dayHdrs}</div>
+    </div>
+    <div class="chore-rows">${choreRowsHtml}</div>
+
+    <div class="earn-bar">
+      <div class="earn-txt">Earned <strong>$${earned.toFixed(2)}</strong> this week${posted>0?` · $${posted.toFixed(2)} paid out`:''}</div>
+      ${isParent && !isPast && unposted > 0.004
+        ? `<button class="btn-post" onclick="postEarning('${child.name}')">+ Post $${unposted.toFixed(2)}</button>` : ''}
+    </div>
+
+    ${isParent ? `<div class="bal-acts">
+      <button class="btn-add" onclick="openAdd('${child.name}')">+ Add Funds</button>
+      <button class="btn-spend" onclick="openSpend('${child.name}')">− Log Spend</button>
+      <button class="btn-hist" onclick="toggleHist('${child.name}')" title="Transaction history">≡</button>
+    </div>` : ''}
+
+    ${histHtml}
+  </div>`;
+}
+
 function renderMyReqs() {
-  const myChild = PEOPLE[me]?.child;
-  if (!myChild) return;
-  const mine = reqs.filter(r => r.child_name === myChild);
+  if (!me?.child) return;
+  const mine = reqs.filter(r => r.child_name === me.child);
   const wrap = document.getElementById('my-reqs-wrap');
   if (!mine.length) { wrap.style.display = 'none'; return; }
   wrap.style.display = 'block';
-  document.getElementById('my-reqs-list').innerHTML = mine.map(r => `
+  document.getElementById('my-reqs-list').innerHTML = mine.slice(0, 8).map(r => `
     <div class="mr-item">
       <div>
         <div class="mr-desc">${esc(r.description)}</div>
@@ -638,63 +683,84 @@ function renderMyReqs() {
     </div>`).join('');
 }
 
-/* ── Actions ── */
-async function toggleChore(name, idx, cur) {
+/* ── Chore Toggle ── */
+async function toggleChoreDay(childName, choreId, dayIdx) {
   const wk = weekKey(weekOff);
-  const wd = weekRow(name);
-  const nc = {...(wd.completions || {})};
-  nc[String(idx)] = !cur;
-  const ex = weeks.find(w => w.child_name === name);
-  if (ex) await sb.from('allowance_weeks').update({completions:nc}).eq('child_name',name).eq('week_key',wk);
-  else await sb.from('allowance_weeks').insert({child_name:name,week_key:wk,completions:nc,earning_posted:false});
-  await loadData();
-}
+  const wd = getWeekData(childName);
+  const completions = { ...(wd.completions || {}) };
+  const days = choreDays(completions[choreId]);
+  completions[choreId] = days.includes(dayIdx)
+    ? days.filter(d => d !== dayIdx)
+    : [...days, dayIdx].sort((a,b)=>a-b);
 
-async function postEarning(name) {
-  const child = kids.find(c => c.name === name);
-  if (!child) return;
-  const wd = weekRow(name);
-  if (wd.earning_posted) { toast('Already posted for this week'); return; }
-  const amt = calcEarning(child, wd);
-  const wk = weekKey(weekOff);
-  const done = (child.chores||[]).filter((_,i) => wd.completions?.[String(i)]).length;
-  await sb.from('allowance_transactions').insert({
-    child_name:name, type:'earning', amount:amt,
-    description:`Week ${wk} — ${done}/${(child.chores||[]).length} chores`,
-    week_key:wk
-  });
-  const ex = weeks.find(w => w.child_name === name);
-  if (ex) await sb.from('allowance_weeks').update({earning_posted:true}).eq('child_name',name).eq('week_key',wk);
-  else await sb.from('allowance_weeks').insert({child_name:name,week_key:wk,completions:{},earning_posted:true});
-  toast(`Posted $${amt.toFixed(2)} for ${name} 🎉`);
-  await loadData();
-}
+  // Optimistic
+  const existing = weeks.find(w => w.child_name === childName);
+  if (existing) Object.assign(existing, { completions });
+  else weeks.push({ child_name: childName, week_key: wk, completions, posted_amount: 0 });
+  renderChildCard();
 
-function toggleHist(name) {
-  const el = document.getElementById('hist-' + name);
-  el.style.display = el.style.display === 'none' ? 'block' : 'none';
-}
-
-async function review(id, status, amount, childName, type) {
-  await sb.from('allowance_requests').update({status, reviewed_at:new Date().toISOString()}).eq('id',id);
-  if (status === 'approved' && +amount > 0 && childName) {
-    await sb.from('allowance_transactions').insert({
-      child_name:childName, type:'adjustment', amount:+amount,
-      description:`Approved: ${type.replace(/_/g,' ')}`, week_key:weekKey(weekOff)
-    });
+  // Persist
+  if (existing) {
+    await sb.from('allowance_weeks').update({ completions }).eq('child_name', childName).eq('week_key', wk);
+  } else {
+    await sb.from('allowance_weeks').insert({ child_name: childName, week_key: wk, completions, earning_posted: false, posted_amount: 0 });
   }
-  toast(status === 'approved' ? '✓ Request approved!' : 'Request denied');
+}
+
+/* ── Post Earnings ── */
+async function postEarning(childName) {
+  const child = kids.find(k => k.name === childName); if (!child) return;
+  const wk = weekKey(weekOff);
+  const wd = getWeekData(childName);
+  const earned = weekEarned(child, wd);
+  const posted = parseFloat(wd.posted_amount) || 0;
+  const unposted = Math.max(0, earned - posted);
+  if (unposted < 0.005) { toast('Nothing new to post'); return; }
+  const newPosted = posted + unposted;
+  await sb.from('allowance_transactions').insert({
+    child_name: childName, type: 'earning', amount: unposted,
+    description: `Chore earnings — week of ${wk}`, week_key: wk,
+  });
+  const existing = weeks.find(w => w.child_name === childName);
+  if (existing) {
+    await sb.from('allowance_weeks').update({ posted_amount: newPosted, earning_posted: true }).eq('child_name', childName).eq('week_key', wk);
+  } else {
+    await sb.from('allowance_weeks').insert({ child_name: childName, week_key: wk, completions: {}, posted_amount: newPosted, earning_posted: true });
+  }
+  toast(`✓ $${unposted.toFixed(2)} posted for ${childName}`);
   await loadData();
 }
 
-/* ── Spend modal ── */
+/* ── Add Funds ── */
+function openAdd(name) {
+  document.getElementById('add-child').innerHTML = kids.map(k =>
+    `<option value="${k.name}"${k.name===name?' selected':''}>${k.name}</option>`).join('');
+  document.getElementById('add-amt').value = '';
+  document.getElementById('add-desc').value = '';
+  document.getElementById('add-modal').classList.add('open');
+  setTimeout(() => document.getElementById('add-amt').focus(), 120);
+}
+function closeAdd() { document.getElementById('add-modal').classList.remove('open'); }
+async function confirmAdd() {
+  const child = document.getElementById('add-child').value;
+  const amt = parseFloat(document.getElementById('add-amt').value);
+  const desc = document.getElementById('add-desc').value.trim();
+  if (!amt || amt <= 0) { toast('Enter a valid amount'); return; }
+  if (!desc) { toast('Add a reason'); return; }
+  await sb.from('allowance_transactions').insert({ child_name: child, type: 'adjustment', amount: amt, description: desc, week_key: weekKey(weekOff) });
+  closeAdd();
+  toast(`+$${amt.toFixed(2)} added for ${child} ✓`);
+  await loadData();
+}
+
+/* ── Log Spend ── */
 function openSpend(name) {
-  document.getElementById('sp-child').innerHTML =
-    kids.map(k => `<option value="${k.name}" ${k.name===name?'selected':''}>${k.name}</option>`).join('');
+  document.getElementById('sp-child').innerHTML = kids.map(k =>
+    `<option value="${k.name}"${k.name===name?' selected':''}>${k.name}</option>`).join('');
   document.getElementById('sp-amt').value = '';
   document.getElementById('sp-desc').value = '';
   document.getElementById('spend-modal').classList.add('open');
-  setTimeout(() => document.getElementById('sp-amt').focus(), 100);
+  setTimeout(() => document.getElementById('sp-amt').focus(), 120);
 }
 function closeSpend() { document.getElementById('spend-modal').classList.remove('open'); }
 async function confirmSpend() {
@@ -703,60 +769,79 @@ async function confirmSpend() {
   const desc = document.getElementById('sp-desc').value.trim();
   if (!amt || amt <= 0) { toast('Enter a valid amount'); return; }
   if (!desc) { toast('Add a description'); return; }
-  await sb.from('allowance_transactions').insert({
-    child_name:child, type:'purchase', amount:-amt,
-    description:desc, week_key:weekKey(weekOff)
-  });
+  await sb.from('allowance_transactions').insert({ child_name: child, type: 'purchase', amount: -amt, description: desc, week_key: weekKey(weekOff) });
   closeSpend();
   toast(`−$${amt.toFixed(2)} logged for ${child}`);
   await loadData();
 }
 
-/* ── Request modal ── */
-function openReqModal(type, desc) {
-  if (type) document.getElementById('rq-type').value = type;
-  document.getElementById('rq-desc').value = desc || '';
+/* ── Kid Requests ── */
+function openReqModal() {
+  document.getElementById('rq-type').value = 'bonus_request';
+  document.getElementById('rq-desc').value = '';
   document.getElementById('rq-amt').value = '';
-  onReqTypeChange();
+  onRqTypeChange();
   document.getElementById('req-modal').classList.add('open');
-  setTimeout(() => document.getElementById('rq-desc').focus(), 100);
+  setTimeout(() => document.getElementById('rq-desc').focus(), 120);
 }
 function closeReqModal() { document.getElementById('req-modal').classList.remove('open'); }
-function onReqTypeChange() {
+function onRqTypeChange() {
   const t = document.getElementById('rq-type').value;
-  document.getElementById('rq-amt-wrap').style.display =
-    (t === 'bonus_request' || t === 'purchase_request') ? 'block' : 'none';
+  document.getElementById('rq-amt-wrap').style.display = (t==='bonus_request'||t==='purchase_request') ? 'block' : 'none';
 }
 async function submitReq() {
-  const childName = PEOPLE[me]?.child;
-  if (!childName) return;
+  const childName = me?.child; if (!childName) return;
   const type = document.getElementById('rq-type').value;
   const desc = document.getElementById('rq-desc').value.trim();
   const amt = parseFloat(document.getElementById('rq-amt').value) || null;
   if (!desc) { toast('Describe your request first'); return; }
-  await sb.from('allowance_requests').insert({child_name:childName, type, description:desc, amount:amt});
+  await sb.from('allowance_requests').insert({ child_name: childName, type, description: desc, amount: amt });
   closeReqModal();
-  toast('Request sent to parents! 📬');
+  toast('Request sent! 📬');
   await loadData();
 }
-function reportChore(childName, choreName) {
-  openReqModal('chore_dispute', `I did "${choreName}" but it's not marked done. Can you check?`);
+
+async function reviewReq(id, status, amount, childName, type) {
+  await sb.from('allowance_requests').update({ status, reviewed_at: new Date().toISOString() }).eq('id', id);
+  if (status === 'approved' && +amount > 0 && childName) {
+    await sb.from('allowance_transactions').insert({
+      child_name: childName, type: 'adjustment', amount: +amount,
+      description: `Approved: ${type.replace(/_/g,' ')}`, week_key: weekKey(weekOff),
+    });
+  }
+  toast(status === 'approved' ? '✓ Approved!' : 'Denied');
+  await loadData();
 }
 
-/* ── Utils ── */
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+/* ── Change Password ── */
+function openPwModal() {
+  document.getElementById('new-pw').value = '';
+  document.getElementById('confirm-pw').value = '';
+  document.getElementById('pw-err').textContent = '';
+  document.getElementById('pw-modal').classList.add('open');
+  setTimeout(() => document.getElementById('new-pw').focus(), 120);
 }
-function fmtD(iso) {
-  return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+function closePwModal() { document.getElementById('pw-modal').classList.remove('open'); }
+async function confirmPwChange() {
+  const np = document.getElementById('new-pw').value;
+  const cp = document.getElementById('confirm-pw').value;
+  const errEl = document.getElementById('pw-err');
+  if (np.length < 6) { errEl.textContent = 'Password must be at least 6 characters'; return; }
+  if (np !== cp) { errEl.textContent = 'Passwords do not match'; return; }
+  const { error } = await sb.auth.updateUser({ password: np });
+  if (error) { errEl.textContent = error.message; return; }
+  closePwModal();
+  toast('Password updated ✓');
 }
-function ago(iso) {
-  const d = Date.now() - new Date(iso);
-  if (d < 60000) return 'just now';
-  if (d < 3600000) return `${Math.floor(d/60000)}m ago`;
-  if (d < 86400000) return `${Math.floor(d/3600000)}h ago`;
-  return `${Math.floor(d/86400000)}d ago`;
+
+/* ── History toggle ── */
+function toggleHist(name) {
+  histOpen[name] = !histOpen[name];
+  const el = document.getElementById('hist-' + name);
+  if (el) el.style.display = histOpen[name] ? 'block' : 'none';
 }
+
+/* ── Toast ── */
 let _tt;
 function toast(msg) {
   const el = document.getElementById('toast');
